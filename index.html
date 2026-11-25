@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>StallPOS v2</title>
+  <meta name="apple-mobile-web-app-title" content="StallPOS" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="app"><div class="center-screen"><p>Loading StallPOS…</p></div></div>
+  <div id="modal-root"></div>
+  <div id="toasts"></div>
+
+  <!-- Order matters: helpers → logic → storage/state → UI building blocks → app shell → screens -->
+  <script src="js/util.js"></script>
+  <script src="js/domain.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/sample.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ui/lock.js"></script>
+  <script src="js/ui/register.js"></script>
+  <script src="js/ui/queue.js"></script>
+  <script src="js/ui/stock.js"></script>
+  <script src="js/ui/plan.js"></script>
+  <script src="js/ui/menu.js"></script>
+  <script src="js/ui/shift.js"></script>
+  <script src="js/ui/reports.js"></script>
+  <script src="js/ui/settings.js"></script>
+  <script>
+    // Offline install (Home Screen app) works when served over http(s); opening the file directly also works.
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(() => {});
+      // First visit: once the files are cached and the worker takes over, redraw so Settings shows "offline ready"
+      navigator.serviceWorker.addEventListener('controllerchange', () => SP.app && SP.app.render && SP.app.render());
+    }
+  </script>
+</body>
+</html>
